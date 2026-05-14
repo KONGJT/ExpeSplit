@@ -15,9 +15,6 @@ function App() {
   const sufficientPax = pax >= 2;
   const [confirmedPax, setConfirmedPax] = useState<number>(0);
 
-  const [playerNames, setPlayerNames] = useState<string[]>([]);
-  const allNamesEntered = playerNames.length > 0 && playerNames.length === pax && playerNames.every(name => name.trim() !== "");
-
   const personNames = names.length > 0 ? names : Array.from({ length: confirmedPax }, (_, i) => `P${i + 1}`);
 
   // List of activities with their own costs
