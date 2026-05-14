@@ -235,8 +235,6 @@ useEffect(() => {
   if (page === 9) startBoxGame();
 }, [page, confirmedPax]);
 
-  const foodSubtotal = mealItems.reduce((sum, item) => sum + item.cost, 0);
-
   // Tax cost
   const taxMultiplier = taxIncluded ? 1 : 1 + (mealTaxPercent / 100);
 
