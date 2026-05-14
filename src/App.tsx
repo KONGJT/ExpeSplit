@@ -237,8 +237,6 @@ useEffect(() => {
 
   const foodSubtotal = mealItems.reduce((sum, item) => sum + item.cost, 0);
 
-  const baseGrandTotal = foodSubtotal + drinkTotal;
-
   // Tax cost
   const taxMultiplier = taxIncluded ? 1 : 1 + (mealTaxPercent / 100);
 
@@ -533,7 +531,7 @@ useEffect(() => {
           <div className="foodRegistrySidebar">
             <h3 className="registryTitle">Individual Bills</h3>
             <div className="dishScrollArea">
-              {mealItems.map((item, index) => (
+              {mealItems.map((item) => (
                 <div key={item.id} className="dishEntryRow">
                   <span className="dishIndex">{item.name}</span>
                   <span className="dishPrice">
