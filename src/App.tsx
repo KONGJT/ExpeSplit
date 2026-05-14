@@ -648,7 +648,7 @@ useEffect(() => {
           {plinkoWinner !== null && (
             <div className="winAnnounce">
               <h3>BAD LUCK!</h3>
-              <h1>Pax {plinkoWinner + 1} pays the bill!</h1>
+              <h1>Player {plinkoWinner + 1} pays the bill!</h1>
             </div>
           )}
           <button className="prevPage" onClick={goBack}>Back</button>
