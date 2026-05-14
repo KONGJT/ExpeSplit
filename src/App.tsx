@@ -3,6 +3,10 @@ import './App.css'
 
 
 function App() {
+
+  // Stores the custom names entered by the user
+  const [names, setNames] = useState<string[]>([]);
+  
   // Set and change pages
   const [page, setPage] = useState<number>(1);
 
@@ -10,6 +14,11 @@ function App() {
   const [pax, setPax] = useState<number>(0);
   const sufficientPax = pax >= 2;
   const [confirmedPax, setConfirmedPax] = useState<number>(0);
+
+  const [playerNames, setPlayerNames] = useState<string[]>([]);
+  const allNamesEntered = playerNames.length > 0 && playerNames.length === pax && playerNames.every(name => name.trim() !== "");
+
+  const personNames = names.length > 0 ? names : Array.from({ length: confirmedPax }, (_, i) => `P${i + 1}`);
 
   // List of activities with their own costs
   const [activities, setActivities] = useState<{id: number, name: string, cost: number}[]>([]);
@@ -30,8 +39,6 @@ function App() {
 
   const getGrandTotal = () => 
   personNames.reduce((sum, p) => sum + getPersonTotal(p), 0);
-
-  const personNames = Array.from({ length: confirmedPax }, (_, i) => `P${i + 1}`);
 
   const addDish = () => {
     if (!newDishName || newDishPrice <= 0) return;
@@ -63,7 +70,6 @@ function App() {
   const getPersonTotal = (person: string) => {
   const sub = getPersonSubtotal(person);
   
-  // Both are calculated from 'sub' independently (Additive)
   const serviceCharge = sub * (serviceChargePercent / 100);
   const tax = sub * (taxPercent / 100);
   
@@ -87,11 +93,9 @@ function App() {
   const [tollCost, setTollCost] = useState<number>(0);
   const [driverSplitsAll, setDriverSplitsAll] = useState<boolean>(true);
 
-  // Math Logic
   const calculatedPetrol = distance * ratePerKm;
   const totalTripCost = calculatedPetrol + tollCost;
 
-  // Shares
   const perPaxShare = confirmedPax > 0 ? totalTripCost / confirmedPax : 0;
   const passengerOnlyShare = (confirmedPax > 1) ? totalTripCost / (confirmedPax - 1) : totalTripCost;
 
@@ -114,35 +118,45 @@ function App() {
     setActivityCost(0);
   }
 
-  // Box Picker
-  const [boxAssignments, setBoxAssignments] = useState<{picker: number, player: number}[]>([]);
-  const [currentPicker, setCurrentPicker] = useState(1);
-  const [shuffledPlayers, setShuffledPlayers] = useState<number[]>([]);
+  // Picking Boxes
+  const [boxAssignments, setBoxAssignments] = useState<{picker: string, player: string}[]>([]);
+  const [currentPickerIdx, setCurrentPickerIdx] = useState(0);
+  const [shuffledPlayers, setShuffledPlayers] = useState<string[]>([]);
   const [revealedBox, setRevealedBox] = useState<number | null>(null);
   const [takenBoxes, setTakenBoxes] = useState<number[]>([]);
 
   const startBoxGame = () => {
-    const arr = Array.from({ length: confirmedPax }, (_, i) => i + 1);
-    for (let i = arr.length - 1; i > 0; i--) {
+
+    const numericArray = Array.from({ length: confirmedPax }, (_, i) => i + 1);
+    
+    // Shuffle Player Numbers
+    for (let i = numericArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+      [numericArray[i], numericArray[j]] = [numericArray[j], numericArray[i]];
     }
-    setShuffledPlayers(arr);
+    
+    setShuffledPlayers(numericArray.map(n => n.toString()));
+    
     setBoxAssignments([]);
-    setCurrentPicker(1);
+    setCurrentPickerIdx(0);
     setRevealedBox(null);
     setTakenBoxes([]);
   };
 
   const pickBox = (i: number) => {
-    if (takenBoxes.includes(i) || revealedBox !== null) return;
-    const playerNum = shuffledPlayers[i];
+    if (takenBoxes.includes(i) || revealedBox !== null || currentPickerIdx >= personNames.length) return;
+    
+    const playerAssigned = shuffledPlayers[i];
     setRevealedBox(i);
+
     setTimeout(() => {
-      setBoxAssignments(prev => [...prev, { picker: currentPicker, player: playerNum }]);
+      setBoxAssignments(prev => [
+        ...prev, 
+        { picker: personNames[currentPickerIdx], player: playerAssigned }
+      ]);
       setTakenBoxes(prev => [...prev, i]);
       setRevealedBox(null);
-      setCurrentPicker(prev => prev + 1);
+      setCurrentPickerIdx(prev => prev + 1);
     }, 1800);
   };
 
@@ -159,9 +173,8 @@ function App() {
     const SLOT_H = 52, BOARD_BOT = H - SLOT_H;
     const ROWS = 7, PEG_R = 5, BOARD_TOP = 30;
     ctx.clearRect(0, 0, W, H);
-    const slotLabels = Array.from({ length: confirmedPax }, (_, i) => `P${i + 1}`);
-    const sw = W / slotLabels.length;
-    slotLabels.forEach((label, i) => {
+    const sw = W / personNames.length;
+    personNames.forEach((label, i) => {
       ctx.fillStyle = i % 2 === 0 ? '#333' : '#2a2a2a';
       ctx.fillRect(i * sw, BOARD_BOT, sw, SLOT_H);
       ctx.strokeStyle = '#111'; ctx.lineWidth = 1;
@@ -201,7 +214,6 @@ function App() {
       const y = BOARD_TOP + 36 + r * 44;
       for (let c = 0; c < cols; c++) pegs.push({ x: startX + c * 34, y });
     }
-    const slotLabels = Array.from({ length: confirmedPax }, (_, i) => `P${i + 1}`);
     let bx = W / 2 + (Math.random() - 0.5) * 8;
     let by = BOARD_TOP + 8;
     let vx = (Math.random() - 0.5) * 1.5;
@@ -209,8 +221,8 @@ function App() {
     const gravity = 0.05, friction = 0.80;
     const drawFrame = (landedSlot: number) => {
       ctx.clearRect(0, 0, W, H);
-      const sw = W / slotLabels.length;
-      slotLabels.forEach((label, i) => {
+      const sw = W / personNames.length;
+      personNames.forEach((label, i) => {
         ctx.fillStyle = landedSlot === i ? '#e63946' : (i % 2 === 0 ? '#333' : '#2a2a2a');
         ctx.fillRect(i * sw, BOARD_BOT, sw, SLOT_H);
         ctx.strokeStyle = '#111'; ctx.lineWidth = 1;
@@ -250,8 +262,8 @@ function App() {
       }
       if (by >= BOARD_BOT - BALL_R) {
         by = BOARD_BOT - BALL_R;
-        const sw = W / slotLabels.length;
-        const si = Math.min(Math.floor(bx / sw), slotLabels.length - 1);
+        const sw = W / personNames.length;
+        const si = Math.min(Math.floor(bx / sw), personNames.length - 1);
         drawFrame(si);
         setPlinkoWinner(si);
         setPlinkoDropping(false);
@@ -293,30 +305,60 @@ function App() {
 
       <div className="content">
 
-        {/* Page 1 — Pax input */}
+        {/* Page 1 — Pax input & Name Entry */}
         {page === 1 && (
-          <div className="inputPax">
-            <label>How many people? </label>
-            <br />
-            <label className="paxCondition">(Must be more than 1 person)</label>
-            <br /><br />
-            <input
-              className="paxNum"
-              type="number"
-              placeholder='Enter number of pax...'
-              value={pax === 0 ? '' : pax}
-              onChange={(e) => setPax(Number(e.target.value))}
-            />
-            <br />
-            <button
-              className={`EnterButton ${sufficientPax ? 'active' : 'inactive'}`}
-              disabled={!sufficientPax}
-              onClick={() => { setConfirmedPax(pax); setPage(2); }}
-            >
-              <label>Enter</label>
-            </button>
-          </div>
-        )}
+  <div className="inputPax">
+    <label>How many people? </label>
+    <br />
+    <label className="paxCondition">(Must be more than 1 person)</label>
+    <br /><br />
+    <input
+      className="paxNum"
+      type="number"
+      placeholder='Enter number of pax...'
+      value={pax === 0 ? '' : pax}
+      onChange={(e) => setPax(Number(e.target.value))}
+    />
+    <br />
+    <button
+      className={`EnterButton ${sufficientPax ? 'active' : 'inactive'}`}
+      disabled={!sufficientPax}
+      onClick={() => { 
+        setConfirmedPax(pax); 
+        setNames(Array(pax).fill(""));
+        setPage(1.5);
+      }}
+    >
+      <label>Next</label>
+    </button>
+  </div>
+)}
+
+{/* Page 1.5 — Name Entry */}
+{page === 1.5 && (
+  <div className="nameEntryPage">
+    <h2 className="optionLabel">Enter Names</h2>
+    <div className="namesGrid">
+      {names.map((name, index) => (
+        <div key={index} className="nameInputGroup">
+          <label>Person {index + 1}: </label>
+          <input 
+            type="text" 
+            placeholder={`Name for P${index + 1}`}
+            value={name}
+            onChange={(e) => {
+              const newNames = [...names];
+              newNames[index] = e.target.value;
+              setNames(newNames);
+            }}
+          />
+        </div>
+      ))}
+    </div>
+    <button className="EnterButton active" onClick={() => setPage(2)}>Proceed</button>
+    <button className="prevPage" onClick={() => setPage(1)}>Back</button>
+  </div>
+)}
 
         {/* Page 2 — Expense type */}
         {page === 2 && (
@@ -507,12 +549,11 @@ function App() {
           </div>
         )}
 
-        {/* Page 7 — Separated Meal (new table layout) */}
+        {/* Page 7 — Separated Meal (Excel Layout) */}
         {page === 7 && (
           <div className="sepMealPage">
             <h2 className="sepMealTitle">Separated Meal</h2>
 
-            {/* Add Dish Form */}
             <div className="sepMealForm">
               <input
                 className="sepDishNameInput"
@@ -530,7 +571,6 @@ function App() {
               <button className="sepAddDishBtn" onClick={addDish}>+ Add Dish</button>
             </div>
 
-            {/* Charges Row */}
             <div className="sepChargesRow">
               <label>Service Charge
                 <input
@@ -559,20 +599,16 @@ function App() {
               </label>
             </div>
 
-            {/* Table */}
             <div className="sepTableWrapper">
               <table className="sepTable">
                 <thead>
-                  {/* Row 1: Actual Bill Header in Column B */}
                   <tr className="excelTopRow">
                     <td className="excelLabel"></td>
                     <td className="excelPrice"><strong>Actual Bill</strong></td>
-                    {/* Align Pax headers to the right of the Bill column */}
                     {personNames.map(p => <th key={p} className="sepThPerson">{p}</th>)}
                     <th></th>
                   </tr>
                   
-                  {/* Row 2: Dish and Price Subheaders */}
                   <tr className="excelHeaderRow">
                     <td className="excelLabel"><strong>Dish</strong></td>
                     <td className="excelPrice"><strong>Price</strong></td>
@@ -582,7 +618,6 @@ function App() {
                 </thead>
 
                 <tbody>
-                  {/* Dish Rows */}
                   {dishes.map(dish => (
                     <tr key={dish.id} className="sepDishRow">
                       <td className="excelLabel">{dish.name}</td>
@@ -604,7 +639,6 @@ function App() {
                     </tr>
                   ))}
 
-                  {/* Subtotal Row - Centered Label in A, Sum in B */}
                   <tr className="excelSubtotalRow">
                     <td className="excelLabel"><strong>Subtotal</strong></td>
                     <td className="excelPrice"><strong>RM{dishes.reduce((s, d) => s + d.price, 0).toFixed(2)}</strong></td>
@@ -614,7 +648,6 @@ function App() {
                     <td></td>
                   </tr>
 
-                  {/* Charges Section */}
                   <tr className="excelChargeRow">
                     <td className="excelLabel">Service Charge ({serviceChargePercent}%)</td>
                     <td className="excelPrice">RM{(dishes.reduce((s, d) => s + d.price, 0) * serviceChargePercent / 100).toFixed(2)}</td>
@@ -648,15 +681,11 @@ function App() {
                     <td></td>
                   </tr>
 
-                  {/* Total Bill row */}
                   <tr className="sepTotalRow">
                   <td className="excelLabel"><strong>Total</strong></td>
-                  {/* This new cell calculates the sum of the 'Price' column (Column B) */}
                   <td className="excelPrice">
                     <strong>RM{(dishes.reduce((s, d) => s + d.price, 0) * (1 + (serviceChargePercent + taxPercent) / 100) - discountAmount).toFixed(2)}</strong>
                   </td>
-                  
-                  {/* Individual totals for P1, P2, etc. */}
                   {personNames.map(p => (
                     <td key={p} className="sepTdGrandTotal">
                       RM{getPersonTotal(p).toFixed(2)}
@@ -665,9 +694,9 @@ function App() {
                   <td></td>
                 </tr>
               </tbody>
-                {/* Grand Total row */}
+                
                 <tr className="sepGrandTotalRow">
-                  <td colSpan={2}><strong>GRAND TOTAL (ALL PAX)</strong></td>
+                  <td colSpan={2} className="excelLabel"><strong>GRAND TOTAL (ALL PAX)</strong></td>
                   <td colSpan={confirmedPax} className="sepTdFullTotal">
                     <strong>RM{getGrandTotal().toFixed(2)}</strong>
                   </td>
@@ -709,7 +738,7 @@ function App() {
               {plinkoWinner !== null && (
                 <div className="winAnnounce">
                   <h3>BAD LUCK!</h3>
-                  <h1>Player {plinkoWinner + 1} pays the bill!</h1>
+                  <h1>{personNames[plinkoWinner]} pays the bill!</h1>
                 </div>
               )}
               <button className="prevPage" onClick={goBack}>Back</button>
@@ -724,7 +753,7 @@ function App() {
               <h2 className="boxPickerTitle">Mystery boxes! 🎁</h2>
               <p className="boxPickerSubtitle">
                 {boxAssignments.length < confirmedPax
-                  ? <>Person <span className="currentPickerNum">{currentPicker}</span> — pick a mystery box!</>
+                  ? <>{personNames[currentPickerIdx] || "Someone"} — pick a mystery box!</>
                   : "All players assigned!"}
               </p>
             </div>
@@ -733,7 +762,9 @@ function App() {
               {Array.from({ length: confirmedPax }, (_, i) => {
                 const isTaken = takenBoxes.includes(i);
                 const isRevealed = revealedBox === i;
-                const playerNum = shuffledPlayers[i];
+
+                const pNumber = `P${shuffledPlayers[i]}`; 
+
                 return (
                   <div
                     key={i}
@@ -742,11 +773,11 @@ function App() {
                   >
                     {isRevealed ? (
                       <>
-                        <span className="boxPlayerNum">P{playerNum}</span>
-                        <span className="boxSubLabel">Person {currentPicker}</span>
+                        <span className="boxIcon">✨</span>
+                        <span className="boxPlayerNum">{pNumber}</span>
                       </>
                     ) : isTaken ? (
-                      <span className="boxTakenLabel">P{playerNum}</span>
+                      <span className="boxTakenLabel">{pNumber}</span>
                     ) : (
                       <>
                         <span className="boxIcon">🎁</span>
@@ -758,17 +789,17 @@ function App() {
               })}
             </div>
 
-            {boxAssignments.length > 0 && (
-              <div className="assignmentList">
-                {boxAssignments.map((a) => (
-                  <div key={a.picker} className="assignmentRow">
-                    <span className="assignPerson">Person {a.picker}</span>
-                    <span className="assignArrow">→</span>
-                    <span className="assignPlayer">P{a.player}</span>
-                  </div>
-                ))}
-              </div>
-            )}
+{boxAssignments.length > 0 && (
+  <div className="assignmentList">
+    {boxAssignments.map((a, idx) => (
+      <div key={idx} className="assignmentRow">
+        <span className="assignPerson">{a.picker}</span>
+        <span className="assignArrow">→</span>
+        <span className="assignPlayer">P{a.player}</span>
+      </div>
+    ))}
+  </div>
+)}
 
             <div className="boxPickerActions">
               <div className="boxPickerLeft">
