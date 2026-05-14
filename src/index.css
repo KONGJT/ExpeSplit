@@ -1,0 +1,972 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.App {
+  max-height: 100vh;
+  overflow: hidden; 
+}
+
+.App.scrollable {
+  overflow-y: auto;
+}
+
+#root {
+  width: 100vw;
+  max-width: 100%; 
+  margin: 0;
+  border-inline: none;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: white; 
+  min-height: 100vh;
+  text-align: center;
+}
+
+.Title {
+  background-color: #b2700e88;
+  padding: 40px 0;
+  width: 100%;
+}
+
+.Title h1 {
+  margin: 0;
+  font-size: 56px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h1 {
+  font-family: 'Caveat', cursive;
+}
+
+.content {
+  background-color: #f3d69be6;
+  padding: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  box-sizing: border-box;
+  flex-grow: 1;
+}
+
+.paxNum {
+  font-size: 40px;
+}
+
+.paxCondition {
+  font-size: 20px;
+}
+
+.inputPax {
+  font-size: 40px;
+  position: relative;
+  top: -20px;
+  font-family: 'Caveat', cursive;
+}
+
+.paxNum, .paxNum::placeholder {
+  text-align: center;
+}
+
+.EnterButton {
+  font-size: 20px;
+  width: 20%;
+  font-family: 'Caveat', cursive;
+  transition: all 0.5 ease;
+  cursor: pointer;
+}
+
+.EnterButton.active {
+  opacity: 1;
+  background-color: aquamarine;
+  pointer-events: auto;
+}
+
+.EnterButton.active:hover {
+  transform: scale(1.05);
+  filter: brightness(0.9)
+}
+
+.EnterButton.inactive {
+  opacity: 0.7;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+
+.optionLabel {
+  font-size: 40px;
+  position: relative;
+  top: -125px;
+  font-family: 'Caveat', cursive;
+}
+
+.optionsPage {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.optionButtons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  
+  width: 100%;
+  padding: 0 10%;
+  margin: 50px 0;
+  box-sizing: border-box;
+}
+
+.optionButton1, 
+.optionButton2, 
+.optionButton3 {
+  width: 250px; 
+  height: 300px;
+  font-size: 30px;
+  display: flex;
+  position: relative;
+  top: -175px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #b2700e;
+  background-color: #fefae0;
+  font-family: 'Caveat', cursive;
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  
+  will-change: transform;
+  
+  transform: translateZ(0);
+}
+
+.optionButton1:hover,
+.optionButton2:hover,
+.optionButton3:hover {
+  transform: translateY(-10px);
+    filter: brightness(0.9);
+}
+
+.prevPage {
+  position: fixed;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  align-self: flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 600px;
+  left: 50px;
+}
+
+.vacationTitle {
+  font-size: 50px;
+  font-family: 'Caveat', cursive;
+  position: relative;
+  top: -175px;
+}
+
+.activityList {
+  width: 750px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+  left: -275px;
+  top: -150px;
+}
+
+.activityHeader, .activityRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.activityHeader {
+  font-weight: bold;
+  border-bottom: 2px solid #b2700e;
+  color: #5a3e12;
+}
+
+.activityRow {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.col-id {
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.col-name {
+  flex-grow: 1;
+  text-align: left;
+}
+
+.col-cost {
+  width: 100px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.activityItemsContainer {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.nameOfActivity {
+  font-size: 30px;
+  position: relative;
+  top: -550px;
+  right: -550px;
+}
+
+.activityCost {
+  font-size: 30px;
+  position: relative;
+  top: -475px;
+  right: -175px;
+}
+
+.addActivityButton {
+  font-size: 20px;
+  position: relative;
+  top: -515px;
+  right: -225px;
+}
+
+.resultBox {
+  font-size: 30px;
+  position: relative;
+  right: -250px;
+  bottom: 475px;
+}
+
+.sharedCost {
+  font-size: 20px;
+  position: relative;
+  right: -300px;
+  bottom: 450px;
+}
+
+.vacationPrevPage {
+  position: fixed;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  align-self: flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 550px;
+  right: 300PX;
+}
+
+.resetCostButton {
+  position: fixed;
+  width: 150px;
+  height: 50px;
+  font-size: 30px;
+  align-self: flex-start;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 550px;
+  right: 475px;
+}
+
+.mealLabel {
+  font-size: 40px;
+  font-family: 'Caveat', cursive;
+  position: relative;
+  top: -175px;
+  right: -400px;
+}
+
+.sharedMealButton,
+.separatedMealButton {
+  width: 300px; 
+  height: 200px;
+  font-size: 30px;
+  background-color: rgb(255, 202, 11);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.sharedMealButton:hover,
+.separatedMealButton:hover {
+  transform: translateY(-10px);
+  filter: brightness(0.9);
+}
+
+.sharedMealButton {
+  position: relative;
+  border-radius: 15px;
+  left: -150px;
+}
+
+.separatedMealButton {
+  position: relative;
+  border-radius: 15px;
+  right: -25px;
+}
+
+.onTheHouseButton {
+  background-color: #85eb52;
+  font-size: 20px;
+  border-color: #ffffff;
+  border-radius: 8px;
+  position: relative;
+  bottom: -240px;
+  right: -200px;
+}
+
+.sharedMealLabel {
+  font-size: 50px;
+  position: relative;
+  top: -100px;
+  right: -200px;
+}
+
+.sharedMealInput {
+  width: 500px;
+  height: 40px;
+  font-size: 30px;
+  position: relative;
+  top: -250px;
+  right: -200px;
+}
+
+.sharedMealInput,
+.sharedMealInput::placeholder {
+  text-align: center;
+}
+
+.receiptGuide {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  width: 250px;
+  margin: 0 auto 20px auto;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.05);
+  transform: rotate(-2deg);
+  position: relative;
+  left: -400px;
+  top: -125px;
+}
+
+.receiptHeader {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px dashed #000;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+}
+
+.receiptLines p {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 13px;
+  margin: 4px 0;
+  text-align: left;
+}
+
+.receiptTotalLine {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 900;
+  font-size: 16px;
+  margin-top: 8px;
+  padding: 5px 0;
+}
+
+.circledTotal {
+  position: relative;
+  z-index: 1;
+}
+
+.circledTotal::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -10px;
+  right: -10px;
+  bottom: -2px;
+  border: 3px solid #e63946;
+  border-radius: 48% 52% 50% 50% / 40% 40% 60% 60%;
+  transform: rotate(1deg);
+  pointer-events: none;
+}
+
+.guideText {
+  font-family: 'Caveat', cursive;
+  color: #e63946;
+  font-weight: bold;
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.numberOfPax {
+  font-family: 'Caveat', cursive;
+  font-size: 35px;
+  position: relative;
+  top: -400px;
+  right: -200px;
+}
+
+.sharedCostPerPax {
+  font-family: 'Caveat', cursive;
+  font-size: 35px;
+  position: relative;
+  top: -350px;
+  right: -200px;
+}
+
+.separatedMealPage {
+  position: relative;
+  top: -90px;
+}
+.mealSplitterLayout {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 95%;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.foodRegistrySidebar {
+  background-color: #fff9db;
+  width: 300px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #fab005;
+}
+
+.dishNameInput,
+.dishCostInput {
+  font-size: 20px;
+}
+
+.dishScrollArea {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.dishEntryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #ffe066;
+}
+
+.mealLogicPanel {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.dishEntryForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.addDishBtn {
+  background-color: #fab005;
+  color: white;
+  width: 225px;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.addDishBtn:hover {
+  filter: brightness(0.9);
+}
+
+.taxLabel,
+.alcoholLabel {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+}
+
+.drinkCostField {
+  font-size: 20px;
+  position: relative;
+  bottom: -15px;
+}
+
+.numOfDrinkersLabel {
+  font-family: 'Caveat', cursive;
+  font-size: 15px;
+  position: relative;
+  bottom: -40px;
+}
+
+.drinkerCountField {
+  font-size: 20px;
+  position: relative;
+  bottom: -60px;
+}
+
+.drinkerTaxAdjuster {
+  background-color: #e9ecef;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: left;
+  height: 250px;
+}
+
+.mealSummaryCard {
+  background-color: #212529;
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.weightedResultArea {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 15px;
+}
+
+.finalAmount {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 5px 0 0 0;
+}
+
+.drinkerActive .finalAmount {
+  color: #ff922b;
+}
+
+.taxInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 5px;
+}
+
+.manualTaxInput {
+  width: 60px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.drinkHighlight {
+  background-color: #e7f5ff;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 5px;
+  color: #1971c2;
+}
+
+.resetSepMealButton {
+  font-size: 20px;
+  position: relative;
+  top: -320px;
+  right: -300px;
+  border-radius: 8px;
+}
+
+.resetSepMealButton:hover {
+  filter: brightness(0.9);
+}
+
+/* ── Box Picker Page ─────────────────────────────────── */
+.boxPickerPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  width: 100%;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  position: relative;
+  top: -75px;
+}
+
+.boxPickerHeader {
+  text-align: center;
+}
+
+.boxPickerTitle {
+  margin: 0 0 6px;
+}
+
+.boxPickerSubtitle {
+  margin: 0;
+  font-size: 15px;
+  color: #aaa;
+}
+
+.currentPickerNum {
+  color: #fab005;
+  font-weight: 700;
+}
+
+/* Box Grid */
+.boxGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  max-width: 360px;
+}
+
+.mysteryBox {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #fab005;
+  border-radius: 14px;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+  user-select: none;
+  gap: 4px;
+}
+
+.mysteryBox:hover:not(.boxTaken):not(.boxRevealed) {
+  transform: scale(1.08);
+  background: #2a2a2a;
+}
+
+.mysteryBox.boxRevealed {
+  background: #fab005;
+  border-color: #fab005;
+  animation: boxPop 0.3s ease;
+  cursor: default;
+}
+
+.mysteryBox.boxTaken {
+  border-color: #333;
+  background: #111;
+  cursor: default;
+  opacity: 0.4;
+}
+
+@keyframes boxPop {
+  0%   { transform: scale(0.8); }
+  60%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+.boxIcon { font-size: 26px; }
+
+.boxPlayerNum {
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+}
+
+.boxSubLabel {
+  font-size: 10px;
+  color: #888;
+}
+
+.mysteryBox.boxRevealed .boxSubLabel {
+  color: #333;
+}
+
+.boxTakenLabel {
+  font-size: 14px;
+  color: #444;
+  font-weight: 600;
+}
+
+/* Assignment List */
+.assignmentList {
+  width: 100%;
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assignmentRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 14px;
+  animation: boxPop 0.3s ease;
+}
+
+.assignPerson { color: #ccc; font-weight: 500; }
+.assignArrow  { color: #555; }
+.assignPlayer { color: #fab005; font-weight: 700; font-size: 16px; }
+
+/* Actions */
+.boxPickerActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.goToPlinkoBtn {
+  background: #fab005;
+  color: #000;
+  font-weight: 700;
+  padding: 14px 40px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  animation: boxPop 0.4s ease;
+}
+
+.resetBoxBtn {
+  background: transparent;
+  border: 1.5px solid #fab005;
+  color: #fab005;
+  font-weight: 600;
+  padding: 10px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  position: relative;
+  right: -400px;
+  top: -300px
+}
+
+.resetBoxBtn:hover {
+  filter: brightness(0.9);
+}
+
+/* Plinko Section */
+.plinkoPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 90vh;
+  padding: 20px;
+  gap: 16px;
+}
+
+.plinkoHeaderArea {
+  position: relative;
+  font-size: 25px;
+  left: -450px;
+  bottom: -75px;
+}
+
+.plinkoHeader {
+  margin: 0 0 4px;
+}
+
+.plinkoSubtitle {
+  margin: 0;
+  color: #ec6363;
+  font-size: 20px;
+}
+
+.plinkoStage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: -175px;
+  width: 100%;
+}
+
+.plinkoCanvas {
+  border: 3px solid #fab005;
+  border-radius: 14px;
+  background: #1a1a1a;
+  display: block;
+}
+
+.plinkoControlsArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+
+.dropBtn {
+  background-color: #fab005;
+  color: #000;
+  position: relative;
+  top: -175px;
+  font-weight: bold;
+  padding: 14px 40px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  transition: opacity 0.2s;
+}
+
+.dropBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.winAnnounce {
+  text-align: center;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.winAnnounce h3 {
+  margin: 0;
+  color: #e63946;
+  font-size: 40px;
+  position: relative;
+  top: -525px;
+  right: -425px;
+}
+
+.winAnnounce h1 {
+  margin: 4px 0 0;
+  font-size: 40px;
+  position: relative;
+  top: -525px;
+  right: -425px;
+}
+
+.carpooling {
+position: relative;
+top: -50px;
+}
+
+.carpoolLabel {
+  font-size: 40px;
+  position: relative;
+  top: -50px;
+}
+
+.distanceLabel {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  position: relative;
+  top: -50px;
+  left: 25px;
+}
+
+.distanceInput {
+  font-size: 20px;
+  position: relative;
+  top: -50px;
+  right: -75px;
+}
+
+.rateCalculation {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  position: relative;
+  top: -25px;
+  left: 50px;
+}
+
+.rateInput {
+  font-size: 20px;
+  position: relative;
+  right: -51px;
+}
+
+.rate {
+  flex: 1;
+}
+
+.tollLabel {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  position: relative;
+  left: 25px;
+}
+
+.tollInput {
+  font-size: 20px;
+  position: relative;
+  right: -120px;
+}
+
+.switchLabel {
+  font-size: 30px;
+  position: relative;
+  bottom: -25px;
+}
+
+.petrolPreview {
+  background: #fff9db;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px dashed #fab005;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  position: relative;
+  bottom: -50px;
+  right: -75px;
+}
+
+.carpoolSummary {
+  width: 300px;
+}
+
+.resultCard {
+  padding: 15px;
+  border-radius: 12px;
+  width: 160px;
+  color: white;
+}
+
+.passengerCard {
+   background-color: #4c6ef5;
+   position: relative;
+   bottom: -50px;
+}
+.driverCard {
+  background-color: #2b2f33;
+  position: relative;
+  bottom: 65px;
+  right: -250px;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  font-size: 11px;
+  margin: 10px 0;
+  opacity: 0.9;
+}
+
+.finalPrice {
+  margin: 0;
+  font-size: 22px;
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
