@@ -6,8 +6,12 @@ body {
 }
 
 .App {
-  max-height: 100vh;
-  overflow: hidden; 
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App.scrollable {
@@ -436,158 +440,170 @@ h1 {
   right: -200px;
 }
 
-.separatedMealPage {
-  position: relative;
-  top: -90px;
-}
-.mealSplitterLayout {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  width: 95%;
-  height: 400px;
-  margin: 0 auto;
-}
-
-.foodRegistrySidebar {
-  background-color: #fff9db;
-  width: 300px;
-  padding: 20px;
-  border-radius: 12px;
-  border: 2px solid #fab005;
-}
-
-.dishNameInput,
-.dishCostInput {
-  font-size: 20px;
-}
-
-.dishScrollArea {
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.dishEntryRow {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #ffe066;
-}
-
-.mealLogicPanel {
-  width: 350px;
+/* ── Separated Meal Page (new table layout) ──────────── */
+.sepMealPage {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
 }
 
-.dishEntryForm {
+.sepMealTitle {
+  font-size: 32px;
+  margin: 0;
+  font-family: 'Caveat', cursive;
+}
+
+.sepMealForm {
   display: flex;
-  flex-direction: column;
   gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
-.addDishBtn {
-  background-color: #fab005;
-  color: white;
-  width: 225px;
-  border: none;
-  padding: 10px;
+.sepDishNameInput {
+  font-size: 16px;
+  padding: 8px 12px;
   border-radius: 8px;
-  font-weight: bold;
+  border: 1px solid #ccc;
+  width: 180px;
 }
 
-.addDishBtn:hover {
-  filter: brightness(0.9);
+.sepDishPriceInput {
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 110px;
 }
 
-.taxLabel,
-.alcoholLabel {
-  font-family: 'Caveat', cursive;
+.sepAddDishBtn {
+  background: #fab005;
+  color: #000;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
   font-size: 15px;
 }
 
-.drinkCostField {
-  font-size: 20px;
-  position: relative;
-  bottom: -15px;
-}
+.sepAddDishBtn:hover { filter: brightness(0.9); }
 
-.numOfDrinkersLabel {
-  font-family: 'Caveat', cursive;
-  font-size: 15px;
-  position: relative;
-  bottom: -40px;
-}
-
-.drinkerCountField {
-  font-size: 20px;
-  position: relative;
-  bottom: -60px;
-}
-
-.drinkerTaxAdjuster {
-  background-color: #e9ecef;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: left;
-  height: 250px;
-}
-
-.mealSummaryCard {
-  background-color: #212529;
-  color: white;
-  padding: 20px;
-  border-radius: 15px;
-}
-
-.weightedResultArea {
+.sepChargesRow {
   display: flex;
-  justify-content: space-around;
-  margin-top: 15px;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  font-size: 14px;
+  background: #fff9db;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px dashed #fab005;
 }
 
-.finalAmount {
-  font-size: 22px;
-  font-weight: bold;
-  margin: 5px 0 0 0;
-}
-
-.drinkerActive .finalAmount {
-  color: #ff922b;
-}
-
-.taxInputWrapper {
+.sepChargesRow label {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-top: 5px;
+  gap: 6px;
+  font-weight: 600;
 }
 
-.manualTaxInput {
-  width: 60px;
-  font-weight: bold;
+.sepChargeInput {
+  width: 52px;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
   text-align: center;
 }
 
-.drinkHighlight {
-  background-color: #e7f5ff;
-  font-weight: bold;
+.sepTableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.sepTable {
+  border-collapse: collapse;
+  min-width: 400px;
+  width: 100%;
+  font-size: 13px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sepTable th, .sepTable td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 10px;
+  text-align: center;
+}
+
+.sepThDish, .sepTdDish { text-align: left; min-width: 100px; }
+.sepThPrice, .sepTdPrice { min-width: 80px; }
+.sepThPerson { background: #fff3cd; min-width: 80px; }
+.sepSubheader { background: #fff9db; font-size: 11px; color: #888; font-weight: 400; }
+
+.sepDishRow:hover { background: #fffbf0; }
+
+.sepSplitInput {
+  width: 40px;
+  font-size: 13px;
+  text-align: center;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 5px;
-  color: #1971c2;
+  padding: 3px;
 }
 
-.resetSepMealButton {
-  font-size: 20px;
-  position: relative;
-  top: -320px;
-  right: -300px;
-  border-radius: 8px;
+.sepPct { font-size: 11px; color: #888; margin-left: 2px; }
+
+.sepRemoveBtn {
+  background: none;
+  border: none;
+  color: #e63946;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 6px;
 }
 
-.resetSepMealButton:hover {
-  filter: brightness(0.9);
+.sepSubtotalRow td { background: #f8f9fa; font-weight: 600; }
+.sepChargeRow td { background: #f8f9fa; color: #555; font-size: 12px; }
+
+.sepTotalRow td {
+  background: #1a1a1a;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.sepGrandTotalRow {
+  background-color: #d4b483;
+  color: #3e2723;
+  font-size: 1.1rem;
+}
+
+.sepTdFullTotal {
+  text-align: center;
+  border-top: 2px double #3e2723;
+}
+
+.sepMealActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.sepResetBtn {
+  background: transparent;
+  border: 1.5px solid #e63946;
+  color: #e63946;
+  font-weight: 600;
+  padding: 8px 22px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
 }
 
 /* ── Box Picker Page ─────────────────────────────────── */
@@ -969,4 +985,127 @@ top: -50px;
 @keyframes popIn {
   from { transform: scale(0); opacity: 0; }
   to   { transform: scale(1); opacity: 1; }
+}
+
+@media (max-width: 768px) {
+
+  .content {
+    padding: 20px;
+  }
+
+  /* Page 1 */
+  .inputPax {
+    font-size: 24px;
+    top: 0;
+  }
+  .paxNum { font-size: 28px; }
+  .EnterButton { width: 50%; }
+
+  /* Page 2 */
+  .optionLabel { font-size: 28px; top: 0; }
+  .optionButtons {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 0;
+    margin: 20px 0;
+  }
+  .optionButton1,
+  .optionButton2,
+  .optionButton3 {
+    width: 80%;
+    height: 80px;
+    font-size: 22px;
+    top: 0;
+  }
+
+  /* Page 3 — Meal options */
+  .mealLabel { font-size: 28px; top: 0; right: 0; }
+  .mealOptions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .sharedMealButton,
+  .separatedMealButton {
+    width: 80%;
+    height: 80px;
+    font-size: 22px;
+    position: static;
+  }
+  .onTheHouseButton {
+    position: static;
+    width: 50%;
+    font-size: 18px;
+  }
+
+  /* Page 6 — Shared Meal */
+  .sharedMealLabel { font-size: 32px; top: 0; right: 0; }
+  .receiptGuide { left: 0; top: 0; width: 80%; }
+  .sharedMealInput { width: 90%; top: 0; right: 0; font-size: 20px; }
+  .numberOfPax { top: 0; right: 0; font-size: 24px; }
+  .sharedCostPerPax { top: 0; right: 0; font-size: 24px; }
+
+  /* Page 4 — Vacation */
+  .vacationLayout { flex-direction: column; align-items: center; }
+  .activityList { width: 90%; left: 0; top: 0; }
+  .nameOfActivity { font-size: 18px; top: 0; right: 0; }
+  .activityCost { font-size: 18px; top: 0; right: 0; }
+  .addActivityButton { font-size: 16px; top: 0; right: 0; }
+  .resultBox { font-size: 20px; right: 0; bottom: 0; }
+  .sharedCost { font-size: 16px; right: 0; bottom: 0; }
+
+  /* Page 5 — Carpooling */
+  .carpooling { top: 0; }
+  .carpoolLabel { font-size: 30px; top: 0; }
+  .carpoolContainer { flex-direction: column; align-items: center; }
+  .distanceLabel { top: 0; left: 0; font-size: 16px; }
+  .distanceInput { top: 0; right: 0; font-size: 16px; }
+  .rateCalculation { top: 0; left: 0; font-size: 16px; }
+  .rateInput { right: 0; font-size: 16px; }
+  .tollLabel { left: 0; font-size: 16px; }
+  .tollInput { right: 0; font-size: 16px; }
+  .switchLabel { font-size: 20px; bottom: 0; }
+  .petrolPreview { right: 0; bottom: 0; }
+  .passengerCard { bottom: 0; }
+  .driverCard { bottom: 0; right: 0; }
+  .carpoolSummary { width: 90%; }
+
+  /* Page 7 — Separated Meal */
+  .sepMealForm { flex-direction: column; }
+  .sepDishNameInput, .sepDishPriceInput { width: 90%; }
+  .sepChargesRow { flex-direction: column; gap: 10px; }
+
+  /* Page 8 — Plinko */
+  .plinkoHeaderArea { left: 0; bottom: 0; font-size: 16px; }
+  .plinkoStage { top: 0; }
+  .dropBtn { top: 0; }
+  .winAnnounce h3,
+  .winAnnounce h1 { top: 0; right: 0; font-size: 24px; }
+
+  /* Back button */
+  .prevPage {
+    position: static;
+    width: auto;
+    height: auto;
+    font-size: 18px;
+    padding: 8px 20px;
+    margin-top: 10px;
+  }
+
+  .vacationPrevPage,
+  .resetCostButton {
+    position: static;
+    font-size: 18px;
+    width: auto;
+    height: auto;
+    padding: 8px 20px;
+  }
+
+  /* Name entry page */
+  .nameEntryPage { gap: 16px; }
+  .nameEntryTitle { font-size: 28px; }
+  .nameInputList { max-width: 90%; }
+  .nameInput { font-size: 16px; }
 }
