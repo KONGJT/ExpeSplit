@@ -290,7 +290,7 @@ function App() {
     } else if (page === 9) {
       setPage(3);
     } else if (page === 2) {
-      setPage(1);
+      setPage(1.5);
     }
   };
 
@@ -304,58 +304,69 @@ function App() {
 
         {/* Page 1 — Pax input & Name Entry */}
         {page === 1 && (
-  <div className="inputPax">
-    <label>How many people? </label>
-    <br />
-    <label className="paxCondition">(Must be more than 1 person)</label>
-    <br /><br />
-    <input
-      className="paxNum"
-      type="number"
-      placeholder='Enter number of pax...'
-      value={pax === 0 ? '' : pax}
-      onChange={(e) => setPax(Number(e.target.value))}
-    />
-    <br />
-    <button
-      className={`EnterButton ${sufficientPax ? 'active' : 'inactive'}`}
-      disabled={!sufficientPax}
-      onClick={() => { 
-        setConfirmedPax(pax); 
-        setNames(Array(pax).fill(""));
-        setPage(1.5);
-      }}
-    >
-      <label>Next</label>
-    </button>
-  </div>
-)}
+          <div className="inputPax">
+            <label>How many people? </label>
+            <br />
+            <label className="paxCondition">(Must be more than 1 person)</label>
+            <br /><br />
+            <input
+              className="paxNum"
+              type="number"
+              placeholder='Enter number of pax...'
+              value={pax === 0 ? '' : pax}
+              onChange={(e) => setPax(Number(e.target.value))}
+            />
+            <br />
+            <button
+              className={`EnterButton ${sufficientPax ? 'active' : 'inactive'}`}
+              disabled={!sufficientPax}
+              onClick={() => { 
+                setConfirmedPax(pax); 
+                if (names.length !== pax) {
+                  setNames(Array(pax).fill(""));
+                }
+                
+                setPage(1.5);
+              }}
+            >
+              <label>Next</label>
+            </button>
+          </div>
+        )}
 
-{/* Page 1.5 — Name Entry */}
-{page === 1.5 && (
-  <div className="nameEntryPage">
-    <h2 className="optionLabel">Enter Names</h2>
-    <div className="namesGrid">
-      {names.map((name, index) => (
-        <div key={index} className="nameInputGroup">
-          <label>Person {index + 1}: </label>
-          <input 
-            type="text" 
-            placeholder={`Name for P${index + 1}`}
-            value={name}
-            onChange={(e) => {
-              const newNames = [...names];
-              newNames[index] = e.target.value;
-              setNames(newNames);
-            }}
-          />
-        </div>
-      ))}
-    </div>
-    <button className="EnterButton active" onClick={() => setPage(2)}>Proceed</button>
-    <button className="prevPage" onClick={() => setPage(1)}>Back</button>
-  </div>
-)}
+        {/* Page 1.5 — Name Entry */}
+        {page === 1.5 && (
+          <div className="nameEntryPage">
+            <h2 className="optionLabel">Enter Names</h2>
+            <div className="namesGrid">
+              {names.map((name, index) => (
+                <div key={index} className="nameInputGroup">
+                  <label>Person {index + 1}: </label>
+                  <input
+                    type="text"
+                    placeholder={`Name for P${index + 1}`}
+                    value={name}
+                    onChange={(e) => {
+                      const newNames = [...names];
+                      newNames[index] = e.target.value;
+                      setNames(newNames);
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button 
+              className={`enterPlayersButton ${names.every(n => n.trim() !== "") ? 'active' : 'inactive'}`} 
+              disabled={!names.every(n => n.trim() !== "")}
+              onClick={() => setPage(2)}
+            >
+              Proceed
+            </button>
+
+            <button className="prevPage" onClick={() => setPage(1)}>Back</button>
+          </div>
+        )}
 
         {/* Page 2 — Expense type */}
         {page === 2 && (
@@ -502,6 +513,9 @@ function App() {
                   </div>
                 </div>
               </div>
+              <h2 className="rateHint">
+  Tip: Typical rates are RM0.20 (Petrol only) <br></br> or RM0.60 (Petrol + Maintenance).
+</h2>
             </div>
             <button className="prevPage" onClick={goBack}>Back</button>
           </div>
