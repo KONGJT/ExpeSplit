@@ -1055,7 +1055,6 @@ top: -50px;
   .paxNum { font-size: 28px; }
   .EnterButton { width: 50%; }
 
-  /* Page 2 */
   .optionLabel { font-size: 28px; top: 0; }
   .optionButtons {
     flex-direction: column;
@@ -1064,6 +1063,12 @@ top: -50px;
     padding: 0;
     margin: 20px 0;
   }
+
+  .optionLabel {
+    position: relative;
+    top: -150px;
+  }
+
   .optionButton1,
   .optionButton2,
   .optionButton3 {
